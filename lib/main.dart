@@ -11,57 +11,44 @@ class Clean_TikTok extends StatelessWidget{
         return MaterialApp(
             title: "Clean Tiktok",
             home: Scaffold(
-                drawer: Drawer(
-                    child: ListView(
-                        children: <Widget> [
-                            DrawerHeader(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(1),
-                                    shape: BoxShape.rectangle,
-                                    color: Colors.white,
-                                    ),
-                                child: Center(
-                                    child: Text(
-                                        'Clean Tiktok',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.black,
-                                            ),
-                                        ),
-                                    ),
+                    persistentFooterButtons: <Widget> [
+                    ],
 
-                                ),
-                            ListTile(
-                                title: Text(
-                                    'Home',
-                                    ),
-                                leading: Icon(Icons.home),
-
-                                ),
-                            ListTile(
-                                title: Text(
-                                    'Vote',
-                                    ),
-                                leading: Icon(Icons.star),
-                                ),
-                            ListTile(
-                                title: Text(
-                                    'Setting',
-                                    ),
-                                leading: Icon(Icons.settings),
-                                ),
-                        ],
+                bottomNavigationBar: BottomNavigationBar(
+                    currentIndex: 0,
+                    fixedColor: Colors.blue,
+                    items:[
+                        BottomNavigationBarItem(
+                            label: "Home",
+                            icon: Icon(Icons.home),
+                            ),
+                        BottomNavigationBarItem(
+                            label: "Vote",
+                            icon: Icon(Icons.star),
+                            ),
+                        BottomNavigationBarItem(
+                            label: "Setting",
+                            icon: Icon(Icons.settings),
+                            ),
+                    ],
+                    ),
+                appBar: AppBar(
+                    title: Container(
+                        alignment: Alignment.center,
+                        child: Text('  Clean TikTok',),
                         ),
                     ),
-                    persistentFooterButtons: <Widget> [
-                        Center(
-                            child: Row(
+                body: 
+                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                     Expanded(
                                         child: Container(
-                                        color: Colors.blue,
-                                        child: ElevatedButton.icon(
+                                        margin: EdgeInsets.only(right:70),
+                                        color: Colors.white,
+                                        child: Padding(
+                                            padding: EdgeInsets.all(30),
+                                            child: ElevatedButton.icon(
                                             icon: Icon(
                                                 Icons.add,
                                                 color: Colors.white),
@@ -75,10 +62,14 @@ class Clean_TikTok extends StatelessWidget{
                                             ),
                                             ),
                                         ),
+                                        ),
                                     Expanded(
                                         child: Container(
-                                        color: Colors.blue,
-                                        child: ElevatedButton.icon(
+                                        color: Colors.white,
+                                        margin: EdgeInsets.only(left:70),
+                                        child : Padding(
+                                            padding: EdgeInsets.all(30),
+                                            child: ElevatedButton.icon(
                                             icon: Icon(
                                                 Icons.add,
                                                 color: Colors.white),
@@ -90,22 +81,11 @@ class Clean_TikTok extends StatelessWidget{
                                                 print("You added groups");
                                             },
                                             ),
+                                        ),
                                             ),
                                     ),
                                 ],
-                                ),
                             ),
-                    ],
-
-                appBar: AppBar(
-                    title: Container(
-                        alignment: Alignment.center,
-                        child: Text('Clean TikTok',),
-                        ),
-                    ),
-                body: Center(
-                    child: Text(''),
-                    ),
                 ),
                 );
     }
