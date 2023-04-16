@@ -32,11 +32,11 @@
 
 ## Nguyễn Thành Đạt
 ### Tuần trước làm gì
-
+- Tìm hiểu cách thêm API vào app flutter
 ### Các vấn đề gặp phải
-
+- Chưa sử dụng thành thạo tạo class để kết nối đến API endpoint
 ### Dự định tuần này làm gì
-
+- Hoàn thành cơ bản giao diện Home Page
 
 ## Nguyễn Văn Thành
 ### Tuần trước làm gì
