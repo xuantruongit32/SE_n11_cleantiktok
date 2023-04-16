@@ -1,8 +1,14 @@
-# Clean TikTok
+# Thông tin dự án
 
-
+Clean TikTok Project
 
 ## Danh sách thành viên
+21010646 - Hoàng Xuân Trường
+21010634 - Nguyễn Văn Thành
+21010655 - Lê Thanh Tùng
+21010 - Nguyễn Thành Đạt
+
+### Tham khảo
 
 This project is a starting point for a Flutter application.
 
