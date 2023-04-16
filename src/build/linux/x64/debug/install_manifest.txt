@@ -1,0 +1,12 @@
+/home/v/projects/first/test/build/linux/x64/debug/bundle/test
+/home/v/projects/first/test/build/linux/x64/debug/bundle/data/icudtl.dat
+/home/v/projects/first/test/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/v/projects/first/test/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+/home/v/projects/first/test/build/linux/x64/debug/bundle/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+/home/v/projects/first/test/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json
+/home/v/projects/first/test/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/v/projects/first/test/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
+/home/v/projects/first/test/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
+/home/v/projects/first/test/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES
+/home/v/projects/first/test/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/v/projects/first/test/build/linux/x64/debug/bundle/data/flutter_assets/shaders/ink_sparkle.frag
