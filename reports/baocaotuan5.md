@@ -25,10 +25,12 @@
 
 ## Lê Thanh Tùng
 ### Tuần trước làm gì
+-Tìm hiểu về API tiktok
 
 ### Các vấn đề gặp phải
-
+-chưa hiểu rõ về cách hoạt động của API
 ### Dự định tuần này làm gì
+-Hoàn thành cơ bản giao diện Home Page
 
 ## Nguyễn Thành Đạt
 ### Tuần trước làm gì
