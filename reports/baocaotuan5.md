@@ -41,6 +41,7 @@
 - Hoàn thành cơ bản giao diện Home Page
 
 ## Nguyễn Văn Thành
+
 ### Tuần trước làm gì
 
 ### Các vấn đề gặp phải
