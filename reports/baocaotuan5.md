@@ -28,7 +28,7 @@
 -Tìm hiểu về API tiktok
 
 ### Các vấn đề gặp phải
--chưa hiểu rõ về cách hoạt động của API
+-chưa hiểu rõ về cách hoạt động của APII
 ### Dự định tuần này làm gì
 -Hoàn thành cơ bản giao diện Home Page
 
