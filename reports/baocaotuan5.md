@@ -32,7 +32,7 @@
 ### Dự định tuần này làm gì
 -Hoàn thành cơ bản giao diện Home Page
 
-## Nguyễn Thành Đạt==
+## Nguyễn Thành Đạt
 ### Tuần trước làm gì
 - Tìm hiểu cách thêm API vào app flutter
 ### Các vấn đề gặp phải
