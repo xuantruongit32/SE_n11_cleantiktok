@@ -4,6 +4,7 @@
         android:label="test"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        tools:overrideLibrary="com.google.firebase.analytics.ktx">
         <activity
             android:name=".MainActivity"
             android:exported="true"
