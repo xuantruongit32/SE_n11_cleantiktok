@@ -1,96 +1,34 @@
-import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'widgets/signin.dart';
 import 'package:flutter/material.dart';
-import 'package:clean_tiktok/widgets/addchannelform.dart';
 
-void main() => runApp(Clean_TikTok());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
 
-class Clean_TikTok extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Clean Tiktok",
-      home: Scaffold(
-        persistentFooterButtons: <Widget>[
-          FlatButton(
-            child: Text("Visit Website"),
-            onPressed: _launchURL,
-          ),
-        ],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 0,
-          fixedColor: Colors.blue,
-          items: [
-            BottomNavigationBarItem(
-              label: "Home",
-              icon: Icon(Icons.home),
-            ),
-            BottomNavigationBarItem(
-              label: "Vote",
-              icon: Icon(Icons.star),
-            ),
-            BottomNavigationBarItem(
-              label: "Setting",
-              icon: Icon(Icons.settings),
-            ),
-          ],
-        ),
-        appBar: AppBar(
-          title: Container(
-            alignment: Alignment.center,
-            child: Text(
-              '  Clean TikTok',
-            ),
-          ),
-        ),
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(right: 70),
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(30),
-                  child: ElevatedButton.icon(
-                    icon: Icon(Icons.add, color: Colors.white),
-                    label: Text(
-                      'Add channels',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    onPressed: () {
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                margin: EdgeInsets.only(left: 70),
-                child: Padding(
-                  padding: EdgeInsets.all(30),
-                  child: ElevatedButton.icon(
-                    icon: Icon(Icons.add, color: Colors.white),
-                    label: Text(
-                      'Add groups',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    onPressed: () {
-                      print("You added groups");
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+        primarySwatch: Colors.blue,
       ),
+      home: const SignInScreen(),
     );
   }
 }
-
-

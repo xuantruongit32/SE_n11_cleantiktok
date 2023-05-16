@@ -1,8 +1,8 @@
-# Install script for directory: /home/v/projects/first/test/linux/flutter
+# Install script for directory: /home/v/projects/first/clean_tiktok/src/linux/flutter
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/v/projects/first/test/build/linux/x64/debug/bundle")
+  set(CMAKE_INSTALL_PREFIX "/home/v/projects/first/clean_tiktok/src/build/linux/x64/debug/bundle")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -39,6 +39,6 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/usr/bin/objdump")
+  set(CMAKE_OBJDUMP "/usr/bin/llvm-objdump")
 endif()
 
