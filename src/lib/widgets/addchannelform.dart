@@ -1,56 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:test/widgets/home_screen.dart';
 
-class AddChannelForm extends StatefulWidget {
+class AddChannel extends StatefulWidget {
   @override
-  _AddChannelFormState createState() => _AddChannelFormState();
+  _AddChannelState createState() => _AddChannelState();
 }
 
-class _AddChannelFormState extends State<AddChannelForm> {
-  final _formKey = GlobalKey<FormState>();
-  String? _channelName;
+class _AddChannelState extends State<AddChannel> {
+  dynamic _selectedCategory;
+  List<String> _categories = [
+    'Category 1',
+    'Category 2',
+    'Category 3',
+    'Category 4',
+  ];
+
+  final TextEditingController _channelUidController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedCategory = _categories[0]; // Set initial value to the first category
+  }
+
+  @override
+  void dispose() {
+    _channelUidController.dispose();
+    super.dispose();
+  }
+
+  void _submitForm() {
+    final String channelUid = _channelUidController.text;
+    print('Channel UID: $channelUid');
+    print('Selected Category: $_selectedCategory');
+
+    // Perform any additional logic or API calls with the channel UID and category
+    // ...
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Channel"),
+        title: Text('Add Channel'),
       ),
-      body: Container(
+      body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: "Channel name",
-                  hintText: "Enter the channel name",
-                ),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return "Please enter the channel name";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _channelName = value;
-                },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextFormField(
+              controller: _channelUidController,
+              decoration: InputDecoration(
+                labelText: 'Channel UID',
               ),
-              SizedBox(
-                height: 16.0,
+            ),
+            SizedBox(height: 16.0),
+            DropdownButtonFormField<String>(
+              value: _selectedCategory,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedCategory = newValue!;
+                });
+              },
+              items: _categories.map((String category) {
+                return DropdownMenuItem<String>(
+                  value: category,
+                  child: Text(category),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: 'Category',
               ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    _formKey.currentState?.save();
-                    Navigator.pop(context, _channelName);
-                  }
-                },
-                child: Text("Add"),
-              ),
-            ],
-          ),
+            ),
+            SizedBox(height: 24.0),
+            ElevatedButton(
+              child: Text('Submit'),
+              onPressed: (){ _submitForm();
+                  Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
+              },
+            ),
+          ],
         ),
       ),
     );
