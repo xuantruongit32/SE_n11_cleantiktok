@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:test/widgets/home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
 
 class AddCategory extends StatefulWidget {
   @override
@@ -21,6 +26,44 @@ class _AddCategoryState extends State<AddCategory> {
 
     // Perform any additional logic or API calls with the category name
     // ...
+     // Add category to the list
+  List<String> categoryList = []; // Replace this with your existing list or retrieve it from Firebase
+  categoryList.add(categoryName);
+ // Get the current user's ID
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    String userId = user.uid;
+
+    // Update the user's document in Firestore
+    DocumentReference userRef =
+        FirebaseFirestore.instance.collection('users').doc(userId);
+
+    userRef.get().then((snapshot) {
+      if (snapshot.exists) {
+        // User document exists, update the category list
+        userRef.update({
+          'categories': FieldValue.arrayUnion([categoryName]),
+        }).then((_) {
+          print('Category added successfully for user: $userId');
+        }).catchError((error) {
+          print('Failed to add category for user: $userId, Error: $error');
+        });
+      } else {
+        // User document doesn't exist, create a new one
+        userRef.set({
+          'categories': [categoryName],
+        }).then((_) {
+          print('Category added successfully for user: $userId');
+        }).catchError((error) {
+          print('Failed to add category for user: $userId, Error: $error');
+        });
+      }
+    }).catchError((error) {
+      print('Failed to access user document for user: $userId, Error: $error');
+    });
+  } else {
+    print('No user is currently signed in.');
+  }
   }
 
   @override
