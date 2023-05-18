@@ -12,24 +12,35 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<String> categories = [];
+  List<String> channels = []; 
 
-  Future<void> fetchData() async {
-  final userId = FirebaseAuth.instance.currentUser?.uid;
+   Future<void> fetchData() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
 
-  if (userId != null) {
-    DocumentSnapshot userSnapshot =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    if (userId != null) {
+      DocumentSnapshot userSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
-    if (userSnapshot.exists) {
-        List<String> fetchedCategories = (userSnapshot.data() as Map<String, dynamic>?)?['categories']?.cast<String>()?.toList() ?? [];
+      if (userSnapshot.exists) {
+        List<String> fetchedCategories =
+            (userSnapshot.data() as Map<String, dynamic>?)?['categories']
+                    ?.cast<String>()
+                    ?.toList() ??
+                [];
 
-      setState(() {
-        categories = fetchedCategories;
-      });
+        List<String> fetchedChannels =
+            (userSnapshot.data() as Map<String, dynamic>?)?['channels']
+                    ?.cast<String>()
+                    ?.toList() ??
+                [];
+
+        setState(() {
+          categories = fetchedCategories;
+          channels = fetchedChannels;
+        });
+      }
     }
   }
-}
-
 
   void _showAddOptions(BuildContext context) {
     showModalBottomSheet(
