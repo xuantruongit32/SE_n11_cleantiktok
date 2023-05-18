@@ -4,17 +4,7 @@
             "outputFile": "/home/v/projects/first/clean_tiktok/src/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
-                    "source": "/home/v/.gradle/caches/transforms-3/66cd37415d8378ea413ba4943f0f2643/transformed/browser-1.4.0/res/values-en-rXC/values-en-rXC.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,255,454,665",
-                        "endColumns": "199,198,210,201",
-                        "endOffsets": "250,449,660,862"
-                    }
-                },
-                {
-                    "source": "/home/v/.gradle/caches/transforms-3/b5f8365e3204d052f7f70b1ea5d51590/transformed/core-1.6.0/res/values-en-rXC/values-en-rXC.xml",
+                    "source": "/home/v/.gradle/caches/transforms-3/fcca112386ad0bb5e57b2f69d6ea5c34/transformed/core-1.7.0/res/values-en-rXC/values-en-rXC.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -28,6 +18,16 @@
                         "startOffsets": "867",
                         "endColumns": "203",
                         "endOffsets": "1066"
+                    }
+                },
+                {
+                    "source": "/home/v/.gradle/caches/transforms-3/66cd37415d8378ea413ba4943f0f2643/transformed/browser-1.4.0/res/values-en-rXC/values-en-rXC.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,255,454,665",
+                        "endColumns": "199,198,210,201",
+                        "endOffsets": "250,449,660,862"
                     }
                 }
             ]

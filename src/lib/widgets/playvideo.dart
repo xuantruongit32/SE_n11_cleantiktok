@@ -1,77 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class TikTokVideoWidget extends StatefulWidget {
-  final String tiktokUrl;
+class PlayVideo extends StatefulWidget {
+    final String videoUrl;
 
-  TikTokVideoWidget({required this.tiktokUrl});
+  PlayVideo({required this.videoUrl});
 
   @override
-  _TikTokVideoWidgetState createState() => _TikTokVideoWidgetState();
+  _PlayVideoState createState() => _PlayVideoState();
 }
 
-class _TikTokVideoWidgetState extends State<TikTokVideoWidget> {
-  late VideoPlayerController _controller;
-  bool _isVideoPlaying = false;
+class _PlayVideoState extends State<PlayVideo> {
+  late VideoPlayerController _videoPlayerController;
+  late Future<void> _initializeVideoPlayerFuture;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.tiktokUrl)
-      ..initialize().then((_) {
-        setState(() {});
-      });
+    _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
+    _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((_) {
+      setState(() {});
+    });
+    _videoPlayerController.play();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _videoPlayerController.dispose();
     super.dispose();
-  }
-
-  void _toggleVideoPlayback() {
-    setState(() {
-      _isVideoPlaying = !_isVideoPlaying;
-      if (_isVideoPlaying) {
-        _controller.play();
-      } else {
-        _controller.pause();
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        GestureDetector(
-          onTap: _toggleVideoPlayback,
-          child: AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: VideoPlayer(_controller),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Play Video'),
+      ),
+      body: FutureBuilder(
+        future: _initializeVideoPlayerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return AspectRatio(
+              aspectRatio: _videoPlayerController.value.aspectRatio,
+              child: VideoPlayer(_videoPlayerController),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _videoPlayerController.value.isPlaying
+                ? _videoPlayerController.pause()
+                : _videoPlayerController.play();
+          });
+        },
+        child: Icon(
+          _videoPlayerController.value.isPlaying ? Icons.pause : Icons.play_arrow,
         ),
-        if (!_isVideoPlaying)
-          Center(
-            child: Icon(
-              Icons.play_arrow,
-              size: 64.0,
-              color: Colors.white,
-            ),
-          ),
-        if (_isVideoPlaying)
-          Center(
-            child: IconButton(
-              icon: Icon(
-                Icons.pause,
-                size: 64.0,
-                color: Colors.white,
-              ),
-              onPressed: _toggleVideoPlayback,
-            ),
-          ),
-      ],
+      ),
     );
   }
 }
-

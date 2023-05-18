@@ -1,41 +1,41 @@
 import 'author.dart';
 class Videos {
-  String? videoId;
   String? title;
   String? cover;
-  int? duration;
+  String? play;
   int? createTime;
   Author? author;
+  int? isTop;
 
   Videos(
       {
-      this.videoId,
       this.title,
       this.cover,
-      this.duration,
+      this.play,
       this.createTime,
       this.author,
-      });
+      this.isTop});
 
   Videos.fromJson(Map<String, dynamic> json) {
-    videoId = json['video_id'];
     title = json['title'];
     cover = json['cover'];
-    duration = json['duration'];
+    play = json['play'];
     createTime = json['create_time'];
     author =
         json['author'] != null ? new Author.fromJson(json['author']) : null;
+    isTop = json['is_top'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
     data['cover'] = this.cover;
-    data['duration'] = this.duration;
+    data['play'] = this.play;
     data['create_time'] = this.createTime;
     if (this.author != null) {
       data['author'] = this.author!.toJson();
     }
+    data['is_top'] = this.isTop;
     return data;
   }
 }
