@@ -1,8 +1,36 @@
 import 'package:flutter/material.dart';
-import 'signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'addchannelform.dart';
+import 'addcategory.dart';
+import 'signin.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<String> categories = [];
+
+  Future<void> fetchData() async {
+  final userId = FirebaseAuth.instance.currentUser?.uid;
+
+  if (userId != null) {
+    DocumentSnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+    if (userSnapshot.exists) {
+        List<String> fetchedCategories = (userSnapshot.data() as Map<String, dynamic>?)?['categories']?.cast<String>()?.toList() ?? [];
+
+      setState(() {
+        categories = fetchedCategories;
+      });
+    }
+  }
+}
+
+
   void _showAddOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -15,16 +43,21 @@ class HomeScreen extends StatelessWidget {
                 leading: Icon(Icons.add),
                 title: Text('Add Channel'),
                 onTap: () {
-                  // Handle Add Channel option
-                  Navigator.pop(context); // Close the bottom sheet
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddChannel(categories: categories)));
                 },
               ),
               ListTile(
                 leading: Icon(Icons.add),
                 title: Text('Add Category'),
                 onTap: () {
-                  // Handle Add Category option
-                  Navigator.pop(context); // Close the bottom sheet
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddCategory()));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.pause),
+                title: Text('Play video'),
+                onTap: () {
+                  // Handle play video option
                 },
               ),
             ],
@@ -35,9 +68,19 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _handleLogout(BuildContext context) {
-    // Handle Logout option
-    // You can perform any necessary logout logic here
-    Navigator.pop(context); // Close the drawer
+    FirebaseAuth.instance.signOut().then((value) {
+      print("Signed Out");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SignInScreen()),
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
   }
 
   @override
@@ -52,13 +95,7 @@ class HomeScreen extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout'),
-              onTap: () {
-                  FirebaseAuth.instance.signOut().then((value) {
-              print("Signed Out");
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignInScreen()));
-            });
-              },
+              onTap: () => _handleLogout(context),
             ),
           ],
         ),
