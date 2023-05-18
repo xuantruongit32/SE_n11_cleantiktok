@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'addchannelform.dart';
 import 'addcategory.dart';
 import 'signin.dart';
+import 'categorylist.dart';
 import '../models/channel.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -126,8 +127,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: Center(
-        child: Text('Home Screen'),
+      body: CategoryList(
+        categories: categories,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
