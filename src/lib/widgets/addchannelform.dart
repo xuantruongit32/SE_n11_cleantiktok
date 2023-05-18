@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:test/widgets/home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'home_screen.dart';
 
 class AddChannel extends StatefulWidget {
   final List<String> categories;
@@ -12,12 +15,13 @@ class AddChannel extends StatefulWidget {
 
 class _AddChannelState extends State<AddChannel> {
   dynamic _selectedCategory;
+
   final TextEditingController _channelUidController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _selectedCategory = widget.categories[0]; // Set initial value to the first category
+    _selectedCategory = widget.categories.isNotEmpty ? widget.categories[0] : null;
   }
 
   @override
@@ -31,8 +35,50 @@ class _AddChannelState extends State<AddChannel> {
     print('Channel UID: $channelUid');
     print('Selected Category: $_selectedCategory');
 
-    // Perform any additional logic or API calls with the channel UID and category
-    // ...
+    // Get the current user's ID
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      String userId = user.uid;
+
+      // Update the user's document in Firestore
+      DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+
+      userRef.get().then((snapshot) {
+        if (snapshot.exists) {
+          // User document exists, update the channel data
+          userRef.update({
+            'channels': FieldValue.arrayUnion([
+              {
+                'channelUid': channelUid,
+                'category': _selectedCategory,
+              }
+            ]),
+          }).then((_) {
+            print('Channel added successfully for user: $userId');
+          }).catchError((error) {
+            print('Failed to add channel for user: $userId, Error: $error');
+          });
+        } else {
+          // User document doesn't exist, create a new one
+          userRef.set({
+            'channels': [
+              {
+                'channelUid': channelUid,
+                'category': _selectedCategory,
+              }
+            ],
+          }).then((_) {
+            print('Channel added successfully for user: $userId');
+          }).catchError((error) {
+            print('Failed to add channel for user: $userId, Error: $error');
+          });
+        }
+      }).catchError((error) {
+        print('Failed to access user document for user: $userId, Error: $error');
+      });
+    } else {
+      print('No user is currently signed in.');
+    }
   }
 
   @override
@@ -57,7 +103,7 @@ class _AddChannelState extends State<AddChannel> {
               value: _selectedCategory,
               onChanged: (String? newValue) {
                 setState(() {
-                  _selectedCategory = newValue!;
+                  _selectedCategory = newValue;
                 });
               },
               items: widget.categories.map((String category) {
@@ -74,12 +120,11 @@ class _AddChannelState extends State<AddChannel> {
             ElevatedButton(
               child: Text('Submit'),
               onPressed: () {
-                _submitForm();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
-              },
+                    if (_selectedCategory != null) {
+                    _submitForm();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+  }
+},
             ),
           ],
         ),
