@@ -2,25 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:test/widgets/home_screen.dart';
 
 class AddChannel extends StatefulWidget {
+  final List<String> categories;
+
+  AddChannel({required this.categories});
+
   @override
   _AddChannelState createState() => _AddChannelState();
 }
 
 class _AddChannelState extends State<AddChannel> {
   dynamic _selectedCategory;
-  List<String> _categories = [
-    'Category 1',
-    'Category 2',
-    'Category 3',
-    'Category 4',
-  ];
-
   final TextEditingController _channelUidController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _selectedCategory = _categories[0]; // Set initial value to the first category
+    _selectedCategory = widget.categories[0]; // Set initial value to the first category
   }
 
   @override
@@ -63,7 +60,7 @@ class _AddChannelState extends State<AddChannel> {
                   _selectedCategory = newValue!;
                 });
               },
-              items: _categories.map((String category) {
+              items: widget.categories.map((String category) {
                 return DropdownMenuItem<String>(
                   value: category,
                   child: Text(category),
@@ -76,10 +73,12 @@ class _AddChannelState extends State<AddChannel> {
             SizedBox(height: 24.0),
             ElevatedButton(
               child: Text('Submit'),
-              onPressed: (){ _submitForm();
-                  Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
+              onPressed: () {
+                _submitForm();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
               },
             ),
           ],
