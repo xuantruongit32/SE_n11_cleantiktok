@@ -94,7 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: Icon(Icons.pause),
                 title: Text('Play video'),
                 onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => VideoList(videos: nullableVideos)));
+                    List<Video>? categoryVideo = nullableVideos["Food"];
+                    List<Video> nonNullCategoryVideo = categoryVideo ?? [];
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => VideoList(videos: nonNullCategoryVideo)));
                 },
               ),
             ],
@@ -145,6 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: CategoryList(
         categories: categories,
         channels: channels,
+        map: nullableVideos,   
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),

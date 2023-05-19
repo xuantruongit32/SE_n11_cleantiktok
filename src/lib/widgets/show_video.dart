@@ -3,7 +3,7 @@ import '../models/video.dart';
 import 'playvideo.dart';
 
 class VideoList extends StatelessWidget {
-  final List<Videos> videos;
+  final List<Video> videos;
 
   VideoList({required this.videos});
 
@@ -17,25 +17,32 @@ class VideoList extends StatelessWidget {
           onTap: () {
             _navigateToVideoDetail(context, video);
           },
-          child: ListTile(
-            leading: FadeInImage.assetNetwork(
-              placeholder: 'assets/placeholder_image.png', // Replace with your placeholder image asset
-              image: video.cover ?? '',
-              fit: BoxFit.cover,
-              width: 72,
-              height: 72,
+          child: Card(
+            child: ListTile(
+              leading: FadeInImage.assetNetwork(
+                placeholder: 'assets/placeholder_image.png',
+                image: video.cover ?? '',
+                fit: BoxFit.cover,
+                width: 72,
+                height: 72,
+              ),
+              title: Text(video.title ?? ''),
+              subtitle: Text(video.author?.nickname ?? ''),
             ),
-            title: Text(video.title ?? ''),
-            subtitle: Text(video.author?.nickname ?? ''),
           ),
         );
       },
     );
   }
 
-  void _navigateToVideoDetail(BuildContext context, Videos video) {
-      String url = video.play ?? "";
-      PlayVideo(videoUrl: url);
+  void _navigateToVideoDetail(BuildContext context, Video video) {
+    String url = video.play ?? "";
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlayVideo(videoUrl: url),
+      ),
+    );
   }
 }
 

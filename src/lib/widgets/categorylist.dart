@@ -159,6 +159,7 @@ class _CategoryListState extends State<CategoryList> {
                     // Perform play action for the category
                       List<Video>? nullvideos = widget.map[widget.categories[index]];
                       List<Video> videos = nullvideos ?? [];
+                      if (videos.length > 0)
                        Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => VideoList(videos: videos)));

@@ -1,5 +1,5 @@
 import 'author.dart';
-class Videos {
+class Video {
   String? title;
   String? cover;
   String? play;
@@ -7,7 +7,7 @@ class Videos {
   Author? author;
   int? isTop;
 
-  Videos(
+  Video(
       {
       this.title,
       this.cover,
@@ -16,7 +16,7 @@ class Videos {
       this.author,
       this.isTop});
 
-  Videos.fromJson(Map<String, dynamic> json) {
+  Video.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     cover = json['cover'];
     play = json['play'];
