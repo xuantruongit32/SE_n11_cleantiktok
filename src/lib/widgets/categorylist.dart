@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/channel.dart';
+import '../models/video.dart';
+import 'show_video.dart';
 
 class CategoryList extends StatefulWidget {
   final List<String> categories;
   final List<Channel> channels;
+  final Map<String, List<Video>> map;
 
-  CategoryList({required this.categories, required this.channels});
+  CategoryList({required this.categories, required this.channels, required this.map});
 
   @override
   _CategoryListState createState() => _CategoryListState();
@@ -132,6 +135,7 @@ class _CategoryListState extends State<CategoryList> {
                 setState(() {
                   toggles[index] = !toggles[index];
                 });
+                print(widget.categories[index]);
               },
               title: Row(
                 children: [
@@ -146,6 +150,21 @@ class _CategoryListState extends State<CategoryList> {
                       ),
                     ),
                   ),
+                    IconButton(
+                  icon: Icon(
+                    Icons.play_arrow,
+                    color: Colors.blue,
+                  ),
+                  onPressed: () {
+                    // Perform play action for the category
+                      List<Video>? nullvideos = widget.map[widget.categories[index]];
+                      List<Video> videos = nullvideos ?? [];
+                       Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => VideoList(videos: videos)));
+
+                  },
+                ),
                   IconButton(
                     icon: Icon(
                       Icons.delete,
@@ -174,7 +193,6 @@ class _CategoryListState extends State<CategoryList> {
                         color: Colors.red,
                       ),
                       onPressed: () {
-                        print(channel.url);
                         _removeChannel(channel.url!, index);
                       },
                     ),
