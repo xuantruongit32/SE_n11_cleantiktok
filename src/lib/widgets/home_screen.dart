@@ -10,6 +10,10 @@ import '../models/channel.dart';
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
+  List<String> getCategories() {
+    final _homeScreenState = _HomeScreenState();
+    return _homeScreenState.categories;
+  }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -50,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     }
+    print("NHIN VAO DAT");
+    print(categories.length);
   }
 
   void _showAddOptions(BuildContext context) {
@@ -115,6 +121,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('CleanTiktok'),
+        actions: [
+            IconButton(onPressed: (){
+                fetchData();
+            }, icon: Icon(Icons.refresh)),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
