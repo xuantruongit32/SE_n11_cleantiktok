@@ -6,19 +6,20 @@ import 'addcategory.dart';
 import 'signin.dart';
 import 'categorylist.dart';
 import '../models/channel.dart';
+import '../network/network.dart';
+import 'show_video.dart';
+import "../models/video.dart";
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
-  List<String> getCategories() {
-    final _homeScreenState = _HomeScreenState();
-    return _homeScreenState.categories;
-  }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   List<String> categories = [];
   List<Channel> channels = [];
+  Map<String,List<Video>> nullableVideos = {};
+
 
   Future<void> fetchData() async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
@@ -32,7 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ?.cast<String>()
                 ?.toList() ??
             [];
-
+        for (var category in fetchedCategories){
+            nullableVideos[category] = [];
+        }
         if (userSnapshot.exists) {
           List<Map<String, dynamic>> fetchedChannels =
               (userSnapshot.data() as Map<String, dynamic>?)?['channels']
@@ -44,6 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
             String category = channelData['category'] ?? '';
             String channelUid = channelData['channelUid'] ?? '';
             Channel channel = Channel(category: category, url: channelUid);
+            ApiService api =ApiService(channel: channelUid);
+            List<Video> videos = await api.fetchVideos();
+            nullableVideos[category]!.addAll(videos);
             fetchedData.add(channel);
           }
 
@@ -54,8 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     }
-    print("NHIN NHIN NHIN NHIN NHIN");
-    print(channels.length);
   }
 
   void _showAddOptions(BuildContext context) {
@@ -89,8 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ListTile(
                 leading: Icon(Icons.pause),
                 title: Text('Play video'),
-                onTap: () {
-                  // Handle play video option
+                onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => VideoList(videos: nullableVideos)));
                 },
               ),
             ],
