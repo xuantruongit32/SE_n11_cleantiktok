@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class CategoryList extends StatefulWidget {
   final List<String> categories;
@@ -27,13 +30,31 @@ class _CategoryListState extends State<CategoryList> {
       });
     }
   }
+  void _removeCategory(int index) async {
+  final userId = FirebaseAuth.instance.currentUser?.uid;
 
-  void _removeCategory(int index) {
-    setState(() {
-      widget.categories.removeAt(index);
-      toggles.removeAt(index);
-    });
+  if (userId != null) {
+    try {
+      // Remove the category from Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .update({
+            'categories': FieldValue.arrayRemove([widget.categories[index]])
+          });
+
+      // Remove the category from the local list
+      setState(() {
+        widget.categories.removeAt(index);
+        toggles.removeAt(index);
+      });
+    } catch (error) {
+      print('Error removing category: $error');
+    }
   }
+}
+
+
 
   @override
   Widget build(BuildContext context) {
