@@ -3,4 +3,5 @@ class Channel{
     String ?url;
     Channel({this.category, this.url});
 
+
 }

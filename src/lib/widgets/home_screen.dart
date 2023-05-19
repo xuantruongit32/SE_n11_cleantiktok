@@ -54,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     }
-    print("NHIN VAO DAT");
-    print(categories.length);
+    print("NHIN NHIN NHIN NHIN NHIN");
+    print(channels.length);
   }
 
   void _showAddOptions(BuildContext context) {
@@ -140,6 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: CategoryList(
         categories: categories,
+        channels: channels,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),

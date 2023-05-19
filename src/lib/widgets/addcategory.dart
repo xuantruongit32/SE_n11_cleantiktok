@@ -3,9 +3,7 @@ import 'package:test/widgets/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-
-
+import '../models/channel.dart';
 class AddCategory extends StatefulWidget {
   @override
   _AddCategoryState createState() => _AddCategoryState();
@@ -20,12 +18,9 @@ class _AddCategoryState extends State<AddCategory> {
     super.dispose();
   }
 
-  void _submitForm() {
+void _submitForm() {
     final String categoryName = _categoryNameController.text;
     print('Category Name: $categoryName');
-
-    // Perform any additional logic or API calls with the category name
-    // ...
      // Add category to the list
   List<String> categoryList = []; // Replace this with your existing list or retrieve it from Firebase
   categoryList.add(categoryName);
@@ -64,7 +59,9 @@ class _AddCategoryState extends State<AddCategory> {
   } else {
     print('No user is currently signed in.');
   }
+
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +85,10 @@ class _AddCategoryState extends State<AddCategory> {
               child: Text('Submit'),
               onPressed: (){
                   _submitForm();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()),
-                    );
+                  Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+    );
               },
             ),
           ],
