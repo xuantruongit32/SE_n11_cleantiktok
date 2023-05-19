@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import '../models/channel.dart';
 
 class CategoryList extends StatefulWidget {
   final List<String> categories;
+  final List<Channel> channels;
 
-  CategoryList({required this.categories});
+  CategoryList({required this.categories, required this.channels});
 
   @override
   _CategoryListState createState() => _CategoryListState();
@@ -14,11 +15,28 @@ class CategoryList extends StatefulWidget {
 
 class _CategoryListState extends State<CategoryList> {
   List<bool> toggles = [];
+  List<List<Channel>> categoryChannels = [];
 
   @override
   void initState() {
     super.initState();
     toggles = List<bool>.generate(widget.categories.length, (index) => false);
+
+    // Initialize the categoryChannels list with empty lists for each category
+    categoryChannels = List<List<Channel>>.generate(
+      widget.categories.length,
+      (index) => [],
+    );
+
+    // Sort the channels into their respective categories
+    for (var channel in widget.channels) {
+      for (var i = 0; i < widget.categories.length; i++) {
+        if (channel.category == widget.categories[i]) {
+          categoryChannels[i].add(channel);
+          break;
+        }
+      }
+    }
   }
 
   @override
@@ -27,29 +45,73 @@ class _CategoryListState extends State<CategoryList> {
     if (widget.categories.length != toggles.length) {
       setState(() {
         toggles = List<bool>.generate(widget.categories.length, (index) => false);
+        categoryChannels = List<List<Channel>>.generate(
+          widget.categories.length,
+          (index) => [],
+        );
+
+        // Sort the channels into their respective categories
+        for (var channel in widget.channels) {
+          for (var i = 0; i < widget.categories.length; i++) {
+            if (channel.category == widget.categories[i]) {
+              categoryChannels[i].add(channel);
+              break;
+            }
+          }
+        }
       });
     }
   }
+
   void _removeCategory(int index) async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+
+    if (userId != null) {
+      try {
+        // Remove the category from Firestore
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .update({
+          'categories': FieldValue.arrayRemove([widget.categories[index]])
+        });
+
+        // Remove the category from the local list
+        setState(() {
+          widget.categories.removeAt(index);
+          toggles.removeAt(index);
+          categoryChannels.removeAt(index);
+        });
+      } catch (error) {
+        print('Error removing category: $error');
+      }
+    }
+  }
+  void _removeChannel(String channelUid, int categoryIndex) async {
   final userId = FirebaseAuth.instance.currentUser?.uid;
 
   if (userId != null) {
     try {
-      // Remove the category from Firestore
+      // Remove the channel from Firestore
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
-          .update({
-            'categories': FieldValue.arrayRemove([widget.categories[index]])
-          });
+          .get()
+          .then((snapshot) {
+        if (snapshot.exists) {
+          // User document exists, update the channel data
+          List<dynamic> channels = snapshot.data()?['channels'];
+          channels.removeWhere((channel) => channel['channelUid'] == channelUid);
+          snapshot.reference.update({'channels': channels});
+        }
+      });
 
-      // Remove the category from the local list
+      // Remove the channel from the local list
       setState(() {
-        widget.categories.removeAt(index);
-        toggles.removeAt(index);
+        categoryChannels[categoryIndex].removeWhere((channel) => channel.url == channelUid);
       });
     } catch (error) {
-      print('Error removing category: $error');
+      print('Error removing channel: $error');
     }
   }
 }
@@ -61,65 +123,65 @@ class _CategoryListState extends State<CategoryList> {
     return ListView.builder(
       itemCount: widget.categories.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          onTap: () {
-            setState(() {
-              toggles[index] = !toggles[index];
-            });
-          },
-          title: Row(
-            children: [
-              Container(
-                width: 48,
-                height: 24,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: toggles[index] ? Colors.blue.withOpacity(0.5) : Colors.grey.withOpacity(0.5),
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      toggles[index] = !toggles[index];
-                    });
-                  },
-                  child: AnimatedAlign(
-                    duration: Duration(milliseconds: 200),
-                    alignment: toggles[index] ? Alignment.centerRight : Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: Container(
-                        width: 16,
-                        height: 16,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: toggles[index] ? Colors.white : Colors.grey,
-                        ),
+        final currentCategoryChannels = categoryChannels[index];
+
+        return Column(
+          children: [
+            ListTile(
+              onTap: () {
+                setState(() {
+                  toggles[index] = !toggles[index];
+                });
+              },
+              title: Row(
+                children: [
+                  Icon(Icons.arrow_drop_down),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      widget.categories[index],
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                ),
-              ),
-              SizedBox(width: 16),
-              Expanded(
-                child: Text(
-                  widget.categories[index],
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                    onPressed: () {
+                      _removeCategory(index);
+                    },
                   ),
-                ),
+                ],
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                ),
-                onPressed: () {
-                  _removeCategory(index);
+            ),
+            if (toggles[index])
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: currentCategoryChannels.length,
+                itemBuilder: (context, channelIndex) {
+                  final channel = currentCategoryChannels[channelIndex];
+                  return ListTile(
+                    leading: Icon(Icons.play_arrow),
+                    title: Text(channel.url ?? ''),
+                    trailing: IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        print(channel.url);
+                        _removeChannel(channel.url!, index);
+                      },
+                    ),
+                  );
                 },
               ),
-            ],
-          ),
+          ],
         );
       },
     );
