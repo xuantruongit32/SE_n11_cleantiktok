@@ -9,29 +9,34 @@ class VideoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: videos.length,
-      itemBuilder: (context, index) {
-        final video = videos[index];
-        return GestureDetector(
-          onTap: () {
-            _navigateToVideoDetail(context, video);
-          },
-          child: Card(
-            child: ListTile(
-              leading: FadeInImage.assetNetwork(
-                placeholder: 'assets/placeholder_image.png',
-                image: video.cover ?? '',
-                fit: BoxFit.cover,
-                width: 72,
-                height: 72,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Video List'),
+      ),
+      body: ListView.builder(
+        itemCount: videos.length,
+        itemBuilder: (context, index) {
+          final video = videos[index];
+          return GestureDetector(
+            onTap: () {
+              _navigateToVideoDetail(context, video);
+            },
+            child: Card(
+              child: ListTile(
+                leading: FadeInImage.assetNetwork(
+                  placeholder: 'assets/placeholder_image.png',
+                  image: video.cover ?? '',
+                  fit: BoxFit.cover,
+                  width: 72,
+                  height: 72,
+                ),
+                title: Text(video.title ?? ''),
+                subtitle: Text(video.author?.nickname ?? ''),
               ),
-              title: Text(video.title ?? ''),
-              subtitle: Text(video.author?.nickname ?? ''),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
