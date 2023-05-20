@@ -31,8 +31,10 @@ class _PlayVideoState extends State<PlayVideo> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+Widget build(BuildContext context) {
+  return Theme(
+    data: ThemeData.dark(),
+    child: Scaffold(
       appBar: AppBar(
         title: Text('Play Video'),
       ),
@@ -61,6 +63,8 @@ class _PlayVideoState extends State<PlayVideo> {
           _videoPlayerController.value.isPlaying ? Icons.pause : Icons.play_arrow,
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
