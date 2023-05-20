@@ -70,6 +70,7 @@ Widget build(BuildContext context) {
     child: Scaffold(
       appBar: AppBar(
         title: Text('Add Category'),
+        backgroundColor: Colors.black,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),

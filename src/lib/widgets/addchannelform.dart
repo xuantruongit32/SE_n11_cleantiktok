@@ -35,8 +35,6 @@ class _AddChannelState extends State<AddChannel> {
 
   void _submitForm() {
     final String channelUid = _channelUidController.text;
-    print('Channel UID: $channelUid');
-    print('Selected Category: $_selectedCategory');
 
     // Get the current user's ID
     User? user = FirebaseAuth.instance.currentUser;
@@ -91,6 +89,7 @@ Widget build(BuildContext context) {
     child: Scaffold(
       appBar: AppBar(
         title: Text('Add Channel'),
+        backgroundColor: Colors.black,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
