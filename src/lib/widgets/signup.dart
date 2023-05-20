@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:test/widgets/signin.dart';
 import '../reusable/reusable.dart';
 import 'checktime.dart';
 import '../utils/color.dart';
@@ -68,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       .then((value) {
                     print("Created New Account");
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Time()));
+                        MaterialPageRoute(builder: (context) => SignInScreen()));
                   }).catchError((error) {
                           setState(() {
                             _error = error.toString();

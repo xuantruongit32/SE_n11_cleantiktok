@@ -12,6 +12,7 @@ class _TimeState extends State<Time> {
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
+        backgroundColor: Colors.black,
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),

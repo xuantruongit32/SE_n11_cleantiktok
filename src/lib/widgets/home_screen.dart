@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
           countdownTime--;
         } else {
           timer.cancel();
+          _handleLogout(context);
         }
       });
     });
@@ -41,11 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
     countdownTimer.cancel();
     super.dispose();
   }
-
-
-  
-
-
   Future<void> fetchData() async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
 
@@ -119,16 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
-              ListTile(
-                leading: Icon(Icons.pause),
-                title: Text('Play video'),
-                onTap: (){
-                    List<Video>? categoryVideo = nullableVideos["Food"];
-                    List<Video> nonNullCategoryVideo = categoryVideo ?? [];
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => VideoList(videos: nonNullCategoryVideo)));
-                },
-              ),
-            ],
+           ],
           ),
         );
       },

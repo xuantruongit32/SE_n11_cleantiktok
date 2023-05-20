@@ -36,6 +36,7 @@ Widget build(BuildContext context) {
     child: Scaffold(
       appBar: AppBar(
         title: Text('Chill and Free'),
+        backgroundColor: Colors.black,
       ),
       body: FutureBuilder(
         future: _initializeVideoPlayerFuture,
