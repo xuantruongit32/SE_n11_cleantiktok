@@ -23,7 +23,7 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="test" >
+        android:label="Clean Tiktok" >
         tools:overrideLibrary="com.google.firebase.analytics.ktx">
         <activity
             android:name="com.example.test.MainActivity"

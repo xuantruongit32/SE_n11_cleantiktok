@@ -5,6 +5,7 @@ import 'reset_password.dart';
 import 'signup.dart';
 import '../utils/color.dart';
 import 'package:flutter/material.dart';
+import 'checktime.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -56,7 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           password: _passwordTextController.text)
                       .then((value) {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                        MaterialPageRoute(builder: (context) => Time()));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });
