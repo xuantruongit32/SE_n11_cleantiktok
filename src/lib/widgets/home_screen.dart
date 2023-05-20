@@ -124,15 +124,15 @@ class _HomeScreenState extends State<HomeScreen> {
     fetchData();
   }
 
+
   @override
 Widget build(BuildContext context) {
   return MaterialApp(
-    theme: ThemeData(
-      brightness: Brightness.dark,
+    theme: ThemeData.dark().copyWith(
       appBarTheme: AppBarTheme(
-        color: Colors.black, 
+        color: Colors.black,
       ),
-      primaryColor: Colors.deepPurple, 
+      primaryColor: Colors.deepPurple,
     ),
     home: Scaffold(
       appBar: AppBar(
@@ -147,13 +147,55 @@ Widget build(BuildContext context) {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
+        child: Column(
           children: [
+            StreamBuilder<DocumentSnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasData && snapshot.data != null) {
+                  final userData = snapshot.data!.data() as Map<String, dynamic>?;
+                  final nickname = userData?['nickname'] as String?;
+                  final totalChannels = channels.length;
+                  final totalCategories = categories.length;
+                  return UserAccountsDrawerHeader(
+                    accountName: Text(nickname ?? ''),
+                    accountEmail: Text(''),
+                    currentAccountPicture: CircleAvatar(
+                      // Add your user profile picture here
+                      backgroundImage: NetworkImage(
+                        'https://example.com/profile_picture.jpg',
+                      ),
+                    ),
+                  );
+                }
+                return Center(child: Text('Error'));
+              },
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text('Total Channels: ${channels.length}'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text('Total Categories: ${categories.length}'),
+                  ),
+                ],
+              ),
+            ),
             ListTile(
               leading: Icon(Icons.logout),
               title: Text(
                 'Logout',
-                style: TextStyle(color: Colors.white), // Customize the text color
+                style: TextStyle(color: Colors.white),
               ),
               onTap: () => _handleLogout(context),
             ),
@@ -172,7 +214,6 @@ Widget build(BuildContext context) {
     ),
   );
 }
-
 
 
 }
