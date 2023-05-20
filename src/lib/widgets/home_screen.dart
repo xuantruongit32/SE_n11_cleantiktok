@@ -101,9 +101,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: Icon(Icons.add),
                 title: Text('Add Channel'),
                 onTap: () {
+                  int saveTime = countdownTime;
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AddChannel(categories: categories)),
+                    MaterialPageRoute(builder: (context) => AddChannel(categories: categories, saveTime: saveTime,)),
                   );
                 },
               ),
@@ -111,9 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: Icon(Icons.add),
                 title: Text('Add Category'),
                 onTap: () {
+                  int saveTime = countdownTime;
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AddCategory()),
+                    MaterialPageRoute(builder: (context) => AddCategory(saveTime: saveTime)),
                   );
                 },
               ),
@@ -196,7 +198,7 @@ Widget build(BuildContext context) {
                     currentAccountPicture: CircleAvatar(
                       // Add your user profile picture here
                       backgroundImage: NetworkImage(
-                        'https://example.com/profile_picture.jpg',
+                        'https://avatars.githubusercontent.com/u/88026544?s=400&u=84cb671c683412051602361b38bcf147bcfe0285&v=4',
                       ),
                     ),
                   );

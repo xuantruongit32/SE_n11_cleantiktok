@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,8 +8,9 @@ import 'home_screen.dart';
 
 class AddChannel extends StatefulWidget {
   final List<String> categories;
+  final int saveTime;
 
-  AddChannel({required this.categories});
+  AddChannel({required this.categories, required this.saveTime});
 
   @override
   _AddChannelState createState() => _AddChannelState();
@@ -126,7 +129,7 @@ Widget build(BuildContext context) {
                   _submitForm();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                    MaterialPageRoute(builder: (context) => HomeScreen(time:widget.saveTime)),
                   );
                 }
               },

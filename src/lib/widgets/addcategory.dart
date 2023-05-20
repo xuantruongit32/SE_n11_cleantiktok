@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/channel.dart';
 class AddCategory extends StatefulWidget {
+  final int saveTime;
+  AddCategory({required this.saveTime});
   @override
   _AddCategoryState createState() => _AddCategoryState();
 }
@@ -87,7 +89,7 @@ Widget build(BuildContext context) {
                 _submitForm();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  MaterialPageRoute(builder: (context) => HomeScreen(time: widget.saveTime)),
                 );
               },
             ),
