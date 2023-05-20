@@ -9,8 +9,11 @@ import '../models/channel.dart';
 import '../network/network.dart';
 import 'show_video.dart';
 import "../models/video.dart";
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
+  final int time;
+  HomeScreen({required this.time});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -19,6 +22,28 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> categories = [];
   List<Channel> channels = [];
   Map<String,List<Video>> nullableVideos = {};
+  late int countdownTime;
+  late Timer countdownTimer;
+
+  void startCountdown() {
+    countdownTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (countdownTime > 0) {
+          countdownTime--;
+        } else {
+          timer.cancel();
+        }
+      });
+    });
+  }
+  @override
+    void dispose() {
+    countdownTimer.cancel();
+    super.dispose();
+  }
+
+
+  
 
 
   Future<void> fetchData() async {
@@ -120,6 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    countdownTime = widget.time;
+    startCountdown();
     super.initState();
     fetchData();
   }
@@ -136,7 +163,7 @@ Widget build(BuildContext context) {
     ),
     home: Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Countdown: $countdownTime'),
         actions: [
           IconButton(
             onPressed: () {
