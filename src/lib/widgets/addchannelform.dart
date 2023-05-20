@@ -82,8 +82,10 @@ class _AddChannelState extends State<AddChannel> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+Widget build(BuildContext context) {
+  return Theme(
+    data: ThemeData.dark(),
+    child: Scaffold(
       appBar: AppBar(
         title: Text('Add Channel'),
       ),
@@ -120,16 +122,21 @@ class _AddChannelState extends State<AddChannel> {
             ElevatedButton(
               child: Text('Submit'),
               onPressed: () {
-                    if (_selectedCategory != null) {
-                    _submitForm();
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-  }
-},
+                if (_selectedCategory != null) {
+                  _submitForm();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                }
+              },
             ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
