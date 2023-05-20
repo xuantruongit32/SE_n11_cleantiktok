@@ -15,6 +15,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _userNameTextController = TextEditingController();
+  String _error = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,10 +69,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     print("Created New Account");
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Time()));
-                  }).onError((error, stackTrace) {
-                    print("Error ${error.toString()}");
+                  }).catchError((error) {
+                          setState(() {
+                            _error = error.toString();
+                                                    });
                   });
-                })
+                }),
+                Text(_error, style: TextStyle(color: Colors.black)),
               ],
             ),
           ))),
