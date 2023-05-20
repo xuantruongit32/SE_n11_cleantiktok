@@ -60,6 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     }
+    print("NNNNNNNNNNNNNNNNNNNNNNNNN");
+    print(channels.length);
   }
 
   void _showAddOptions(BuildContext context) {
@@ -123,14 +125,25 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+Widget build(BuildContext context) {
+  return MaterialApp(
+    theme: ThemeData(
+      brightness: Brightness.dark,
+      appBarTheme: AppBarTheme(
+        color: Colors.black, 
+      ),
+      primaryColor: Colors.deepPurple, 
+    ),
+    home: Scaffold(
       appBar: AppBar(
-        title: Text('CleanTiktok'),
+        title: Text('Home'),
         actions: [
-            IconButton(onPressed: (){
-                fetchData();
-            }, icon: Icon(Icons.refresh)),
+          IconButton(
+            onPressed: () {
+              fetchData();
+            },
+            icon: Icon(Icons.refresh),
+          ),
         ],
       ),
       drawer: Drawer(
@@ -138,7 +151,10 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             ListTile(
               leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              title: Text(
+                'Logout',
+                style: TextStyle(color: Colors.white), // Customize the text color
+              ),
               onTap: () => _handleLogout(context),
             ),
           ],
@@ -147,13 +163,17 @@ class _HomeScreenState extends State<HomeScreen> {
       body: CategoryList(
         categories: categories,
         channels: channels,
-        map: nullableVideos,   
+        map: nullableVideos,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _showAddOptions(context),
       ),
-    );
-  }
+    ),
+  );
+}
+
+
+
 }
 
