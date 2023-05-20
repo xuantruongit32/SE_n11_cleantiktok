@@ -17,6 +17,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
+  String _error = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +51,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 5,
                 ),
                 forgetPassword(context),
+                Text(_error, style: TextStyle(color: Colors.black)),
                 firebaseUIButton(context, "Sign In", () {
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
@@ -58,8 +60,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       .then((value) {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Time()));
-                  }).onError((error, stackTrace) {
-                    print("Error ${error.toString()}");
+                  }).catchError((error) {
+                          setState((){
+                              _error = error.toString();
+                          });
                   });
                 }),
                 signUpOption()
