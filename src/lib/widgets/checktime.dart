@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
 
 class Time extends StatefulWidget {
   @override
@@ -25,28 +26,56 @@ class _TimeState extends State<Time> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                    onPressed: () {
+                        Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(time: 5*60),
+                  ),
+                );
+                    },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.green, // Customize button color
                   ),
                   child: Text('5 min'),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                    onPressed: () {
+                        Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(time: 10*60),
+                  ),
+                );
+                    },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.yellow, // Customize button color
                   ),
                   child: Text('10 min'),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                    onPressed: () {
+                        Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(time: 15*60),
+                  ),
+                );
+                    },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.orange, // Customize button color
                   ),
                   child: Text('15 min'),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                    onPressed: () {
+                        Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(time: 20*60),
+                  ),
+                );
+                    },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.red, // Customize button color
                   ),

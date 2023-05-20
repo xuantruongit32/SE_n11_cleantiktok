@@ -5,7 +5,6 @@ class PlayVideo extends StatefulWidget {
     final String videoUrl;
 
   PlayVideo({required this.videoUrl});
-
   @override
   _PlayVideoState createState() => _PlayVideoState();
 }
@@ -36,7 +35,7 @@ Widget build(BuildContext context) {
     data: ThemeData.dark(),
     child: Scaffold(
       appBar: AppBar(
-        title: Text('Play Video'),
+        title: Text('Chill and Free'),
       ),
       body: FutureBuilder(
         future: _initializeVideoPlayerFuture,

@@ -1,4 +1,4 @@
-#Sat May 20 11:38:15 ICT 2023
+#Sat May 20 16:12:45 ICT 2023
 base.0=/home/v/projects/first/clean_tiktok/src/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 base.1=/home/v/projects/first/clean_tiktok/src/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
 base.2=/home/v/projects/first/clean_tiktok/src/build/app/intermediates/dex/debug/mergeDexDebug/classes3.dex

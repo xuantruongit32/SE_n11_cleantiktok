@@ -8,7 +8,7 @@ class ApiService {
     ApiService({required this.channel});
    Future<List<Video>> fetchVideos() async {
     const String apiUrl = 'https://tiktok-video-no-watermark2.p.rapidapi.com/user/posts';
-    const String apiKey = 'eb27019d07msh5c17b16f16d31f6p197831jsnabfa7baac995';
+    const String apiKey = 'f4f858eb43mshbc71bd4a79d4a9bp126aebjsn1ef94da72439';
     const String apiHost = 'tiktok-video-no-watermark2.p.rapidapi.com';
 
     final Map<String, String> headers = {
