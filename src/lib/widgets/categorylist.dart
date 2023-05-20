@@ -78,6 +78,18 @@ class _CategoryListState extends State<CategoryList> {
             .update({
           'categories': FieldValue.arrayRemove([widget.categories[index]])
         });
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get()
+          .then((snapshot) {
+        if (snapshot.exists) {
+          // User document exists, update the channel data
+          List<dynamic> channels = snapshot.data()?['channels'];
+          channels.removeWhere((channel) => channel['category'] == widget.categories[index]);
+          snapshot.reference.update({'channels': channels});
+        }
+      });
 
         // Remove the category from the local list
         setState(() {
