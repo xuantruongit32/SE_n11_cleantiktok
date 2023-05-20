@@ -61,11 +61,11 @@ void _submitForm() {
   }
 
   }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+@override
+Widget build(BuildContext context) {
+  return Theme(
+    data: ThemeData.dark(),
+    child: Scaffold(
       appBar: AppBar(
         title: Text('Add Category'),
       ),
@@ -83,18 +83,20 @@ void _submitForm() {
             SizedBox(height: 24.0),
             ElevatedButton(
               child: Text('Submit'),
-              onPressed: (){
-                  _submitForm();
-                  Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
+              onPressed: () {
+                _submitForm();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
               },
             ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
